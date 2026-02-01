@@ -12,10 +12,10 @@ const extras = [
 
 function pedirTipoSitio() {
   let opcion = prompt("Ingrese el número del tipo de sitio:\n1-Landing\n2-Institucional\n3-Tienda online");
-  let indice = parseInt(opcion) - 1; // Convertir a número y restar 1 para el índice
+  let indice = parseInt(opcion) - 1;
   
-  // Validar que sea una opción válida
-  if (indice >= 0 && indice < preciosSitio.length) {
+  // Validar que sea una opción válida (0, 1 o 2)
+  if (indice === 0 || indice === 1 || indice === 2) {
     return preciosSitio[indice];
   } else {
     alert("Opción inválida. Se seleccionó Landing por defecto.");
@@ -26,10 +26,10 @@ function pedirTipoSitio() {
 function pedirExtras() {
   let extrasElegidos = [];
   
-  // Usar FOR para recorrer todos los extras
-  for (let i = 0; i < extras.length; i++) {
-    if (confirm("¿Desea agregar " + extras[i].nombre + " (USD " + extras[i].precio + ")?")) {
-      extrasElegidos.push(extras[i]);
+  // Usar FOR-OF para recorrer todos los extras
+  for (let extra of extras) {
+    if (confirm("¿Desea agregar " + extra.nombre + " (USD " + extra.precio + ")?")) {
+      extrasElegidos.push(extra);
     }
   }
   
@@ -47,9 +47,22 @@ function calcularPresupuesto(tipoSitio, extrasElegidos) {
 }
 
 function mostrarResultado(nombre, tipoSitio, extrasElegidos, total) {
-  let mensajeExtras = extrasElegidos.length > 0 
-    ? extrasElegidos.map(e => e.nombre).join(", ") 
-    : "Ninguno";
+  let mensajeExtras = "";
+  let tieneExtras = false;
+  
+  // Construir mensaje de extras manualmente
+  for (let extra of extrasElegidos) {
+    if (mensajeExtras !== "") {
+      mensajeExtras += ", ";
+    }
+    mensajeExtras += extra.nombre;
+    tieneExtras = true;
+  }
+  
+  // Si no tiene extras, mostrar "Ninguno"
+  if (tieneExtras === false) {
+    mensajeExtras = "Ninguno";
+  }
     
   alert("Cliente: " + nombre + 
         "\nTipo de sitio: " + tipoSitio.tipo + 
@@ -62,21 +75,72 @@ function mostrarResultado(nombre, tipoSitio, extrasElegidos, total) {
   console.log("Total: USD", total);
 }
 
+function mostrarMenu() {
+  let menu = "=== SIMULADOR DE PRESUPUESTOS ===\n\n";
+  menu += "1 - Crear nuevo presupuesto\n";
+  menu += "2 - Ver tipos de sitios disponibles\n";
+  menu += "3 - Ver extras disponibles\n";
+  menu += "4 - Salir\n\n";
+  menu += "Ingrese una opción:";
+  
+  let opcion = prompt(menu);
+  return opcion;
+}
+
+function mostrarTiposSitios() {
+  let mensaje = "=== TIPOS DE SITIOS DISPONIBLES ===\n\n";
+  
+  for (let sitio of preciosSitio) {
+    mensaje += sitio.tipo + ": USD " + sitio.precio + "\n";
+  }
+  
+  alert(mensaje);
+}
+
+function mostrarExtrasDisponibles() {
+  let mensaje = "=== EXTRAS DISPONIBLES ===\n\n";
+  
+  for (let extra of extras) {
+    mensaje += extra.nombre + ": USD " + extra.precio + "\n";
+  }
+  
+  alert(mensaje);
+}
+
+function crearPresupuesto() {
+  let nombre = prompt("Ingrese su nombre:");
+  
+  if (nombre === null || nombre === "") {
+    alert("Debe ingresar un nombre para continuar.");
+    return;
+  }
+  
+  let tipoElegido = pedirTipoSitio();
+  let extrasElegidos = pedirExtras();
+  
+  const total = calcularPresupuesto(tipoElegido, extrasElegidos);
+  mostrarResultado(nombre, tipoElegido, extrasElegidos, total);
+}
+
 function iniciarSimulador() {
   let continuar = true;
 
   while (continuar) {
-    let nombre = prompt("Ingrese su nombre:");
-    let tipoElegido = pedirTipoSitio();
-    let extrasElegidos = pedirExtras();
+    let opcion = mostrarMenu();
     
-    const total = calcularPresupuesto(tipoElegido, extrasElegidos);
-    mostrarResultado(nombre, tipoElegido, extrasElegidos, total);
-
-    continuar = confirm("¿Desea realizar otro presupuesto?");
+    if (opcion === "1") {
+      crearPresupuesto();
+    } else if (opcion === "2") {
+      mostrarTiposSitios();
+    } else if (opcion === "3") {
+      mostrarExtrasDisponibles();
+    } else if (opcion === "4") {
+      alert("¡Gracias por usar nuestro simulador!");
+      continuar = false;
+    } else {
+      alert("Opción inválida. Por favor ingrese un número del 1 al 4.");
+    }
   }
-  
-  alert("¡Gracias por usar nuestro simulador!");
 }
 
 iniciarSimulador();
