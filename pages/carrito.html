@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Carrito de Presupuestos - Lorena Fusillo</title>
+</head>
+
+<body>
+    <h1>Carrito de Presupuestos</h1>
+
+    <div class="container">
+        <div class="carrito-header">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Presupuestos Guardados</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                Aquí puedes ver todos los presupuestos que has creado
+            </p>
+        </div>
+
+        <!-- Lista de presupuestos del carrito -->
+        <div id="lista-carrito">
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="btn-group" style="margin-top: 30px;">
+            <a href="../index.html" class="btn btn-secondary"
+                style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">Volver
+                al Inicio</a>
+            <button class="btn btn-primary" id="btn-limpiar-carrito">Vaciar Carrito</button>
+        </div>
+    </div>
+
+    <script defer src="../js/carrito.js"></script>
+</body>
+
+</html>

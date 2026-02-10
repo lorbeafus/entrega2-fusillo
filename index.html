@@ -1,20 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--JS-->
-    <script defer src="./js/main.js"></script>
-    <title>Entrega 2 - simulador de presupuesto web</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Simulador de Presupuesto Web - Lorena Fusillo</title>
 </head>
 
 <body>
-    <h1>Entrega 2 - Lorena Fusillo</h1>
-    <section id="productos-container">
+    <h1>Simulador de Presupuestos Web</h1>
 
-    </section>
-    <h2><a href="./pages/carrito.html">Ir al carrito</a></h2>
+    <div class="container">
+        <!-- Menú Principal -->
+        <div id="menu-principal" class="menu-section">
+            <h2>¿Qué deseas hacer?</h2>
+            <button class="menu-btn" id="btn-crear-presupuesto">Crear Nuevo Presupuesto</button>
+            <button class="menu-btn secondary" id="btn-ver-sitios">Ver Tipos de Sitios Disponibles</button>
+            <button class="menu-btn secondary" id="btn-ver-extras">Ver Extras Disponibles</button>
+            <a href="./pages/carrito.html" class="menu-btn secondary menu-link">Ver Carrito de Presupuestos</a>
+        </div>
+
+
+
+        <!-- Formulario de Presupuesto -->
+        <div id="form-presupuesto" class="form-section">
+            <h2>Crear Presupuesto</h2>
+
+            <form id="presupuesto-form">
+                <!-- Nombre del Cliente -->
+                <div class="form-group">
+                    <label for="nombre-cliente">Nombre del Cliente:</label>
+                    <input type="text" id="nombre-cliente" placeholder="Ingrese su nombre" required>
+                </div>
+
+                <!-- Tipo de Sitio -->
+                <div class="form-group">
+                    <label>Tipo de Sitio Web:</label>
+                    <div class="radio-group" id="tipo-sitio-group">
+                        <!-- Se llenará dinámicamente con JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Extras -->
+                <div class="form-group">
+                    <label>Extras (opcional):</label>
+                    <div class="checkbox-group" id="extras-group">
+                        <!-- Se llenará dinámicamente con JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Calcular Presupuesto</button>
+                    <button type="button" class="btn btn-secondary" id="btn-cancelar">Volver al Menú</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sección de Información de Sitios -->
+        <div id="info-sitios" class="info-section">
+            <h3>Tipos de Sitios Disponibles</h3>
+            <div id="lista-sitios">
+                <!-- Se llenará dinámicamente con JavaScript -->
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" id="btn-volver-sitios">Volver al Menú</button>
+            </div>
+        </div>
+
+        <!-- Sección de Información de Extras -->
+        <div id="info-extras" class="info-section">
+            <h3>Extras Disponibles</h3>
+            <div id="lista-extras">
+                <!-- Se llenará dinámicamente con JavaScript -->
+            </div>
+            <div class="btn-group" style="margin-top: 20px;">
+                <button class="btn btn-secondary" id="btn-volver-extras">Volver al Menú</button>
+            </div>
+        </div>
+
+
+        <!-- Resultado del Presupuesto -->
+        <div id="resultado" class="resultado-section">
+            <h3>✨ Presupuesto Generado ✨</h3>
+            <div id="resultado-contenido">
+                <!-- Se llenará dinámicamente con JavaScript -->
+            </div>
+            <div class="btn-group" style="margin-top: 20px;">
+                <button class="btn btn-primary" id="btn-nuevo-presupuesto">Crear Otro Presupuesto</button>
+                <button class="btn btn-secondary" id="btn-volver-resultado">Volver al Menú</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/main.js"></script>
 </body>
 
 </html>

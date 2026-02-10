@@ -10,139 +10,271 @@ const extras = [
   { nombre: "SEO básico", precio: 120 }
 ];
 
-let carProductos = [];
+const historialPresupuestos = JSON.parse(localStorage.getItem("historialPresupuestos")) || [];
 
-function pedirTipoSitio() {
-  let opcion = prompt("Ingrese el número del tipo de sitio:\n1-Landing\n2-Institucional\n3-Tienda online");
-  let indice = parseInt(opcion) - 1;
+const menuPrincipal = document.getElementById('menu-principal');
+const formPresupuesto = document.getElementById('form-presupuesto');
+const infoSitios = document.getElementById('info-sitios');
+const infoExtras = document.getElementById('info-extras');
+const resultado = document.getElementById('resultado');
+
+const btnCrearPresupuesto = document.getElementById('btn-crear-presupuesto');
+const btnVerSitios = document.getElementById('btn-ver-sitios');
+const btnVerExtras = document.getElementById('btn-ver-extras');
+
+const btnCancelar = document.getElementById('btn-cancelar');
+const btnVolverSitios = document.getElementById('btn-volver-sitios');
+const btnVolverExtras = document.getElementById('btn-volver-extras');
+const btnVolverResultado = document.getElementById('btn-volver-resultado');
+const btnNuevoPresupuesto = document.getElementById('btn-nuevo-presupuesto');
+
+const presupuestoForm = document.getElementById('presupuesto-form');
+
+function volverAlMenu() {
+  menuPrincipal.style.display = 'flex';
+  formPresupuesto.style.display = 'none';
+  infoSitios.style.display = 'none';
+  infoExtras.style.display = 'none';
+  resultado.style.display = 'none';
+}
+
+function generarTiposSitio() {
+  const tipoSitioGroup = document.getElementById('tipo-sitio-group');
+  tipoSitioGroup.innerHTML = '';
   
-  // Validar que sea una opción válida (0, 1 o 2)
-  if (indice === 0 || indice === 1 || indice === 2) {
-    return preciosSitio[indice];
-  } else {
-    alert("Opción inválida. Se seleccionó Landing por defecto.");
-    return preciosSitio[0];
+  for (const sitio of preciosSitio) {
+    const indice = preciosSitio.indexOf(sitio);
+    const radioOption = document.createElement('div');
+    radioOption.className = 'radio-option';
+    
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'tipo-sitio';
+    radio.value = indice;
+    radio.id = `sitio-${indice}`;
+    if (indice === 0) radio.checked = true;
+    
+    const label = document.createElement('label');
+    label.htmlFor = `sitio-${indice}`;
+    label.className = 'option-label';
+    label.textContent = sitio.tipo;
+    
+    const precio = document.createElement('span');
+    precio.className = 'option-price';
+    precio.textContent = `USD ${sitio.precio}`;
+    
+    radioOption.appendChild(radio);
+    radioOption.appendChild(label);
+    radioOption.appendChild(precio);
+    tipoSitioGroup.appendChild(radioOption);
   }
 }
 
-function pedirExtras() {
-  let extrasElegidos = [];
+function generarExtras() {
+  const extrasGroup = document.getElementById('extras-group');
+  extrasGroup.innerHTML = '';
   
-  // Usar FOR-OF para recorrer todos los extras
-  for (let extra of extras) {
-    if (confirm("¿Desea agregar " + extra.nombre + " (USD " + extra.precio + ")?")) {
-      extrasElegidos.push(extra);
-    }
+  for (const extra of extras) {
+    const indice = extras.indexOf(extra);
+    const checkboxOption = document.createElement('div');
+    checkboxOption.className = 'checkbox-option';
+    
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.name = 'extras';
+    checkbox.value = indice;
+    checkbox.id = `extra-${indice}`;
+    
+    const label = document.createElement('label');
+    label.htmlFor = `extra-${indice}`;
+    label.className = 'option-label';
+    label.textContent = extra.nombre;
+    
+    const precio = document.createElement('span');
+    precio.className = 'option-price';
+    precio.textContent = `USD ${extra.precio}`;
+    
+    checkboxOption.appendChild(checkbox);
+    checkboxOption.appendChild(label);
+    checkboxOption.appendChild(precio);
+    extrasGroup.appendChild(checkboxOption);
   }
+}
+
+function mostrarListaSitios() {
+  const listaSitios = document.getElementById('lista-sitios');
+  listaSitios.innerHTML = '';
   
-  return extrasElegidos;
+  for (const sitio of preciosSitio) {
+    const infoItem = document.createElement('div');
+    infoItem.className = 'info-item';
+    
+    const nombre = document.createElement('span');
+    nombre.textContent = sitio.tipo;
+    nombre.style.fontWeight = '600';
+    
+    const precio = document.createElement('span');
+    precio.textContent = `USD ${sitio.precio}`;
+    precio.style.color = '#667eea';
+    precio.style.fontWeight = '700';
+    
+    infoItem.appendChild(nombre);
+    infoItem.appendChild(precio);
+    listaSitios.appendChild(infoItem);
+  }
+}
+
+function mostrarListaExtras() {
+  const listaExtras = document.getElementById('lista-extras');
+  listaExtras.innerHTML = '';
+  
+  for (const extra of extras) {
+    const infoItem = document.createElement('div');
+    infoItem.className = 'info-item';
+    
+    const nombre = document.createElement('span');
+    nombre.textContent = extra.nombre;
+    nombre.style.fontWeight = '600';
+    
+    const precio = document.createElement('span');
+    precio.textContent = `USD ${extra.precio}`;
+    precio.style.color = '#667eea';
+    precio.style.fontWeight = '700';
+    
+    infoItem.appendChild(nombre);
+    infoItem.appendChild(precio);
+    listaExtras.appendChild(infoItem);
+  }
 }
 
 function calcularPresupuesto(tipoSitio, extrasElegidos) {
   let total = tipoSitio.precio;
-
+  
   for (let extra of extrasElegidos) {
     total += extra.precio;
   }
-
+  
   return total;
 }
 
+function guardarPresupuestoEnStorage(presupuesto) {
+  historialPresupuestos.push(presupuesto);
+  localStorage.setItem("historialPresupuestos", JSON.stringify(historialPresupuestos));
+}
+
 function mostrarResultado(nombre, tipoSitio, extrasElegidos, total) {
-  let mensajeExtras = "";
-  let tieneExtras = false;
+  const resultadoContenido = document.getElementById('resultado-contenido');
+  resultadoContenido.innerHTML = '';
   
-  // Construir mensaje de extras manualmente
-  for (let extra of extrasElegidos) {
-    if (mensajeExtras !== "") {
-      mensajeExtras += ", ";
-    }
-    mensajeExtras += extra.nombre;
-    tieneExtras = true;
+  const itemNombre = document.createElement('div');
+  itemNombre.className = 'resultado-item';
+  itemNombre.innerHTML = `<strong>Cliente:</strong> ${nombre}`;
+  resultadoContenido.appendChild(itemNombre);
+  
+  const itemTipo = document.createElement('div');
+  itemTipo.className = 'resultado-item';
+  itemTipo.innerHTML = `<strong>Tipo de sitio:</strong> ${tipoSitio.tipo}`;
+  resultadoContenido.appendChild(itemTipo);
+  
+  const itemExtras = document.createElement('div');
+  itemExtras.className = 'resultado-item';
+  let mensajeExtras = '';
+  
+  if (extrasElegidos.length > 0) {
+    mensajeExtras = extrasElegidos.map(extra => extra.nombre).join(', ');
+  } else {
+    mensajeExtras = 'Ninguno';
   }
   
-  // Si no tiene extras, mostrar "Ninguno"
-  if (tieneExtras === false) {
-    mensajeExtras = "Ninguno";
-  }
-    
-  alert("Cliente: " + nombre + 
-        "\nTipo de sitio: " + tipoSitio.tipo + 
-        "\nExtras: " + mensajeExtras + 
-        "\nPresupuesto final: USD " + total);
-        
-  console.log("Cliente:", nombre);
-  console.log("Tipo de sitio:", tipoSitio.tipo);
-  console.log("Extras:", mensajeExtras);
-  console.log("Total: USD", total);
+  itemExtras.innerHTML = `<strong>Extras:</strong> ${mensajeExtras}`;
+  resultadoContenido.appendChild(itemExtras);
+  
+  const itemTotal = document.createElement('div');
+  itemTotal.className = 'resultado-total';
+  itemTotal.textContent = `Presupuesto Final: USD ${total}`;
+  resultadoContenido.appendChild(itemTotal);
+  
+  menuPrincipal.style.display = 'none';
+  formPresupuesto.style.display = 'none';
+  resultado.style.display = 'block';
+  
+  const fechaActual = new Date();
+  const fechaFormateada = `${fechaActual.getDate()}/${fechaActual.getMonth() + 1}/${fechaActual.getFullYear()} ${fechaActual.getHours()}:${fechaActual.getMinutes()}`;
+  
+  const presupuesto = {
+    nombre: nombre,
+    tipoSitio: tipoSitio.tipo,
+    extras: extrasElegidos.map(extra => extra.nombre),
+    total: total,
+    fecha: fechaFormateada
+  };
+  
+  guardarPresupuestoEnStorage(presupuesto);
 }
 
-function mostrarMenu() {
-  let menu = "=== SIMULADOR DE PRESUPUESTOS ===\n\n";
-  menu += "1 - Crear nuevo presupuesto\n";
-  menu += "2 - Ver tipos de sitios disponibles\n";
-  menu += "3 - Ver extras disponibles\n";
-  menu += "4 - Salir\n\n";
-  menu += "Ingrese una opción:";
-  
-  let opcion = prompt(menu);
-  return opcion;
-}
+btnCrearPresupuesto.addEventListener('click', () => {
+  menuPrincipal.style.display = 'none';
+  formPresupuesto.style.display = 'block';
+  document.getElementById('nombre-cliente').value = '';
+  document.querySelectorAll('input[name="extras"]').forEach(cb => cb.checked = false);
+  document.querySelector('input[name="tipo-sitio"]').checked = true;
+});
 
-function mostrarTiposSitios() {
-  let mensaje = "=== TIPOS DE SITIOS DISPONIBLES ===\n\n";
-  
-  for (let sitio of preciosSitio) {
-    mensaje += sitio.tipo + ": USD " + sitio.precio + "\n";
-  }
-  
-  alert(mensaje);
-}
+btnVerSitios.addEventListener('click', () => {
+  mostrarListaSitios();
+  menuPrincipal.style.display = 'none';
+  infoSitios.style.display = 'block';
+});
 
-function mostrarExtrasDisponibles() {
-  let mensaje = "=== EXTRAS DISPONIBLES ===\n\n";
-  
-  for (let extra of extras) {
-    mensaje += extra.nombre + ": USD " + extra.precio + "\n";
-  }
-  
-  alert(mensaje);
-}
+btnVerExtras.addEventListener('click', () => {
+  mostrarListaExtras();
+  menuPrincipal.style.display = 'none';
+  infoExtras.style.display = 'block';
+});
 
-function crearPresupuesto() {
-  let nombre = prompt("Ingrese su nombre:");
+btnCancelar.addEventListener('click', volverAlMenu);
+btnVolverSitios.addEventListener('click', volverAlMenu);
+btnVolverExtras.addEventListener('click', volverAlMenu);
+btnVolverResultado.addEventListener('click', volverAlMenu);
+
+btnNuevoPresupuesto.addEventListener('click', () => {
+  menuPrincipal.style.display = 'none';
+  formPresupuesto.style.display = 'block';
+  resultado.style.display = 'none';
+  document.getElementById('nombre-cliente').value = '';
+  document.querySelectorAll('input[name="extras"]').forEach(cb => cb.checked = false);
+  document.querySelector('input[name="tipo-sitio"]').checked = true;
+});
+
+presupuestoForm.addEventListener('submit', (e) => {
+  e.preventDefault();
   
-  if (nombre === null || nombre === "") {
-    alert("Debe ingresar un nombre para continuar.");
+  const nombre = document.getElementById('nombre-cliente').value.trim();
+  
+  if (nombre === '') {
     return;
   }
   
-  let tipoElegido = pedirTipoSitio();
-  let extrasElegidos = pedirExtras();
+  const tipoSeleccionado = document.querySelector('input[name="tipo-sitio"]:checked');
+  const tipoSitio = preciosSitio[parseInt(tipoSeleccionado.value)];
   
-  const total = calcularPresupuesto(tipoElegido, extrasElegidos);
-  mostrarResultado(nombre, tipoElegido, extrasElegidos, total);
-}
-
-function iniciarSimulador() {
-  let continuar = true;
-
-  while (continuar) {
-    let opcion = mostrarMenu();
-    
-    if (opcion === "1") {
-      crearPresupuesto();
-    } else if (opcion === "2") {
-      mostrarTiposSitios();
-    } else if (opcion === "3") {
-      mostrarExtrasDisponibles();
-    } else if (opcion === "4") {
-      alert("¡Gracias por usar nuestro simulador!");
-      continuar = false;
-    } else {
-      alert("Opción inválida. Por favor ingrese un número del 1 al 4.");
-    }
+  const extrasCheckboxes = document.querySelectorAll('input[name="extras"]:checked');
+  const extrasElegidos = [];
+  
+  for (const checkbox of extrasCheckboxes) {
+    extrasElegidos.push(extras[parseInt(checkbox.value)]);
   }
+  
+  const total = calcularPresupuesto(tipoSitio, extrasElegidos);
+  
+  mostrarResultado(nombre, tipoSitio, extrasElegidos, total);
+});
+
+function inicializarApp() {
+  generarTiposSitio();
+  generarExtras();
+  volverAlMenu();
 }
 
-iniciarSimulador();
+inicializarApp();
+
