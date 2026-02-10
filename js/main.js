@@ -10,6 +10,8 @@ const extras = [
   { nombre: "SEO básico", precio: 120 }
 ];
 
+let carProductos = [];
+
 function pedirTipoSitio() {
   let opcion = prompt("Ingrese el número del tipo de sitio:\n1-Landing\n2-Institucional\n3-Tienda online");
   let indice = parseInt(opcion) - 1;
