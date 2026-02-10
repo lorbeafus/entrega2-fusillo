@@ -10,7 +10,9 @@ body {
   min-height: 100vh;
   padding: 20px;
   color: #333;
+  position: relative;
 }
+
 
 h1 {
   text-align: center;
@@ -19,6 +21,22 @@ h1 {
   font-size: 2.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+.logo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 80px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
 
 .container {
   max-width: 800px;
@@ -372,4 +390,11 @@ h1 {
   .btn-group {
     flex-direction: column;
   }
+
+  .logo {
+    width: 60px;
+    top: 15px;
+    right: 15px;
+  }
 }
+
