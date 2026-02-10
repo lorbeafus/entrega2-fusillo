@@ -6,42 +6,48 @@
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #393a3e 0%, #66676b 100%);
+  background: rgb(49, 48, 48);
   min-height: 100vh;
   padding: 20px;
-  color: #333;
+  color: #323030;
   position: relative;
 }
 
 
 h1 {
   text-align: center;
-  color: white;
+  color: #d9d9d9;
   margin-bottom: 30px;
   font-size: 2.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #7e6726e9;
 }
 
 .logo {
   position: absolute;
   top: 20px;
   right: 20px;
-  width: 80px;
+  width: 120px;
   height: auto;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: white;
   transition: transform 0.3s ease;
 }
 
 .logo:hover {
-  transform: scale(1.05);
+  transform: none;
 }
 
 
 .container {
   max-width: 800px;
   margin: 0 auto;
-  background: white;
+  background: #f3f3f3;
   border-radius: 20px;
   padding: 40px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -52,17 +58,6 @@ h1 {
   flex-direction: column;
   gap: 15px;
   margin-bottom: 30px;
-}
-
-.menu-section h2,
-.form-section h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #eac766e9;
-}
-
-.form-section h2 {
-  margin-bottom: 25px;
 }
 
 .menu-link {
@@ -80,7 +75,7 @@ h1 {
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, #747680 0%, #e8d865 100%);
+  background: linear-gradient(135deg, #747680 0%, #aca35e 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(221, 198, 71, 0.4);
 }
@@ -95,7 +90,7 @@ h1 {
 }
 
 .menu-btn.secondary {
-  background: linear-gradient(135deg, #747680 0%, #e8d865 100%);
+  background: linear-gradient(135deg, #747680 0%, #aca35e 100%);
   box-shadow: 0 4px 15px rgba(221, 198, 71, 0.6);
 }
 
@@ -146,7 +141,7 @@ h1 {
 
 .form-group input[type="text"]:focus {
   outline: none;
-  border-color: #e8d865;
+  border-color: #aca35e;
 }
 
 .radio-group,
@@ -170,7 +165,7 @@ h1 {
 
 .radio-option:hover,
 .checkbox-option:hover {
-  border-color: #e8d865;
+  border-color: #aca35e;
   background: #f0f4ff;
 }
 
@@ -190,7 +185,7 @@ h1 {
 
 .option-price {
   font-weight: 700;
-  color: #e8d865;
+  color: #aca35e;
   font-size: 1.1rem;
 }
 
@@ -212,7 +207,7 @@ h1 {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #747680 0%, #e8d865 100%);
+  background: linear-gradient(135deg, #747680 0%, #aca35e 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(221, 198, 71, 0.6);
 }
@@ -239,12 +234,6 @@ h1 {
   justify-content: center;
 }
 
-.carrito-header h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #e8d865;
-}
-
 .carrito-header p {
   text-align: center;
   color: #666;
@@ -266,7 +255,7 @@ h1 {
 }
 
 .info-section h3 {
-  color: #e8d865;
+  color: #aca35e;
   margin-bottom: 15px;
   font-size: 1.5rem;
 }
@@ -288,7 +277,7 @@ h1 {
 .resultado-section {
   display: none;
   padding: 30px;
-  background: linear-gradient(135deg, #716f5e 0%, #e8d865 100%);
+  background: linear-gradient(135deg, #716f5e 0%, #aca35e 100%);
   border-radius: 15px;
   margin-top: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -315,7 +304,7 @@ h1 {
 }
 
 .resultado-item strong {
-  color: #e8d865;
+  color: #aca35e;
 }
 
 .resultado-total {
@@ -326,7 +315,7 @@ h1 {
   text-align: center;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #e8d865;
+  color: #aca35e;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -362,14 +351,14 @@ h1 {
 }
 
 .historial-item strong {
-  color: #e8d865;
+  color: #aca35e;
   margin-right: 8px;
 }
 
 .historial-total {
   margin-top: 15px;
   padding: 12px;
-  background: linear-gradient(135deg, #2f2e27 0%, #e8d865 100%);
+  background: linear-gradient(135deg, #2f2e27 0%, #aca35e 100%);
   color: white;
   border-radius: 8px;
   text-align: center;
@@ -380,7 +369,7 @@ h1 {
 .resumen-total {
   margin-top: 30px;
   padding: 25px;
-  background: linear-gradient(135deg, #2f2e27 0%, #e8d865 100%);
+  background: linear-gradient(135deg, #2f2e27 0%, #aca35e 100%);
   border-radius: 15px;
   color: white;
   text-align: center;
@@ -431,7 +420,7 @@ h1 {
 
 .info-item-precio {
   font-weight: 700;
-  color: #e8d865;
+  color: #aca35e;
 }
 
 .btn-group-spaced {
