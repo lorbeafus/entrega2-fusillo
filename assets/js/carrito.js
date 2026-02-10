@@ -111,13 +111,9 @@ function limpiarCarrito() {
     return;
   }
   
-  const confirmar = confirm('¿Estás seguro de que deseas vaciar todo el carrito?');
-  
-  if (confirmar) {
-    carrito.length = 0;
-    localStorage.removeItem("historialPresupuestos");
-    mostrarCarrito();
-  }
+  carrito.length = 0;
+  localStorage.removeItem("historialPresupuestos");
+  mostrarCarrito();
 }
 
 btnLimpiarCarrito.addEventListener('click', limpiarCarrito);
