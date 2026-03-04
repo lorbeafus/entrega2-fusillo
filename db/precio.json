@@ -1,0 +1,5 @@
+[
+  {"tipo": "Landing", "precio": 300},
+  {"tipo": "Institucional", "precio": 500},
+  {"tipo": "Tienda online", "precio": 900}
+]

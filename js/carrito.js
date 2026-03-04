@@ -65,9 +65,29 @@ function mostrarCarrito() {
 }
 
 function eliminarPresupuesto(indice) {
-  carrito.splice(indice, 1);
-  localStorage.setItem("historialPresupuestos", JSON.stringify(carrito));
-  mostrarCarrito();
+  Swal.fire({
+    title: '¿Eliminar presupuesto?',
+    text: 'Esta acción no se puede deshacer.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      carrito.splice(indice, 1);
+      localStorage.setItem("historialPresupuestos", JSON.stringify(carrito));
+      mostrarCarrito();
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'El presupuesto fue eliminado.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  });
 }
 
 function editarPresupuesto(indice) {
@@ -90,12 +110,37 @@ function consultarWhatsApp(indice) {
 
 function limpiarCarrito() {
   if (carrito.length === 0) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Carrito vacío',
+      text: 'No hay presupuestos para eliminar.',
+    });
     return;
   }
-  
-  carrito.length = 0;
-  localStorage.removeItem("historialPresupuestos");
-  mostrarCarrito();
+
+  Swal.fire({
+    title: '¿Vaciar el carrito?',
+    text: 'Se eliminarán todos los presupuestos guardados.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Sí, vaciar todo',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      carrito.length = 0;
+      localStorage.removeItem("historialPresupuestos");
+      mostrarCarrito();
+      Swal.fire({
+        icon: 'success',
+        title: 'Carrito vaciado',
+        text: 'Todos los presupuestos fueron eliminados.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  });
 }
 
 btnLimpiarCarrito.addEventListener('click', limpiarCarrito);

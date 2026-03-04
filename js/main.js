@@ -1,14 +1,4 @@
-const preciosSitio = [
-  { tipo: "Landing", precio: 300 },
-  { tipo: "Institucional", precio: 500 },
-  { tipo: "Tienda online", precio: 900 }
-];
 
-const extras = [
-  { nombre: "Mantenimiento", precio: 100 },
-  { nombre: "Hosting", precio: 80 },
-  { nombre: "SEO básico", precio: 120 }
-];
 
 const historialPresupuestos = JSON.parse(localStorage.getItem("historialPresupuestos")) || [];
 
@@ -164,6 +154,14 @@ function mostrarResultado(nombre, email, telefono, tipoSitio, extrasElegidos, to
   };
   
   guardarPresupuestoEnStorage(presupuesto);
+
+  Swal.fire({
+    icon: 'success',
+    title: '¡Presupuesto creado!',
+    text: `Presupuesto para ${nombre} guardado correctamente.`,
+    timer: 2500,
+    showConfirmButton: false
+  });
 }
 
 btnCrearPresupuesto.addEventListener('click', () => {
@@ -216,7 +214,11 @@ presupuestoForm.addEventListener('submit', (e) => {
   // Validación de nombre: solo letras y espacios
   const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
   if (!regexNombre.test(nombre)) {
-    alert('Por favor, ingrese un nombre válido (solo letras).');
+    Swal.fire({
+      icon: 'error',
+      title: 'Nombre inválido',
+      text: 'Por favor, ingrese un nombre válido (solo letras).',
+    });
     return;
   }
   
@@ -260,10 +262,27 @@ function cargarPresupuestoEdicion() {
     localStorage.removeItem("presupuestoActual");
   }
 }
-
+ 
+let preciosSitio = [];
+let extras = [];
+const URL_PRECIO = "../db/precio.json";
+const URL_EXTRAS = "../db/extras.json";
 function inicializarApp() {
-  generarTiposSitio();
-  generarExtras();
+ 
+  
+  fetch(URL_PRECIO)
+    .then(response => response.json())
+    .then(data => {
+      preciosSitio = data;
+      generarTiposSitio();
+    });
+  
+  fetch(URL_EXTRAS)
+    .then(response => response.json())
+    .then(data => {
+      extras = data;
+      generarExtras();
+    });
   
   // Verificamos si venimos de editar un presupuesto del carrito
   cargarPresupuestoEdicion();
